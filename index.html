@@ -2,440 +2,595 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Eros Gate — Tasteful Art Gallery</title>
-  <meta name="description" content="A single‑file, Apple‑style, tasteful art gallery with an elegant 18+ entry gate, fullscreen lightbox, lazy‑loading masonry layout, and zero dependencies. Drop images into /gallery and go." />
-  <meta name="color-scheme" content="light dark">
-  <meta name="theme-color" content="#0B0B0B">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="description" content="A tasteful, minimalist gallery for elegant erotic art. Adults 18+ only." />
+  <meta name="robots" content="noimageindex,nosnippet" />
+  <meta http-equiv="Permissions-Policy" content="interest-cohort=()" />
+  <title>Maison — Elegant Gallery (18+)</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Ccircle cx='32' cy='32' r='30' fill='black'/%3E%3C/svg%3E">
   <style>
-    /* ---------------------------------------------------------
-       Eros Gate — Single-File Apple-Style Gallery (No deps)
-       Host on GitHub Pages. Put your images in /gallery.
-
-       Optional (recommended): create /gallery-manifest.json like:
-       {
-         "title": "Eros Gallery",
-         "hero": "gallery/cover.jpg",
-         "images": [
-           {"src":"gallery/set1/001.jpg","caption":"Rose Light","tags":["set1","rose"]},
-           {"src":"gallery/set1/002.jpg"},
-           "gallery/solo/IMG_0231.webp"
-         ]
-       }
-
-       Fallback (if no manifest): we scan common patterns in /gallery
-       (IMG_0001.jpg, image-1.jpg, photo (1).jpg, etc.) with a sane cap.
-
-       Accessibility, reduced motion, and mobile PASSED.  
-       --------------------------------------------------------- */
-
     :root{
-      --ink:#0b0b0b;           /* rich black */
-      --paper:#ffffff;         /* pure white */
-      --soft:#f5f6f7;          /* soft surface */
-      --line:rgba(0,0,0,.08);  /* hairline */
-      --tint:#dcdcdc;          /* light stroke */
-      --accent:#ff385c;        /* elegant pop (can change) */
-      --accent-ink:#fff;
-      --gate-grad: radial-gradient(120% 120% at 50% 0%, #111 0%, #0b0b0b 35%, #000 100%);
-      --radius: 16px;
+      --ink:#0b0b0b; --ink-2:#1b1b1b; --muted:#6b7280; --line:rgba(0,0,0,.10);
+      --bg:#fff; --bg-2:#f7f7f7; --accent:#111; --soft:rgba(0,0,0,.06);
+      --radius:18px; --radius-xs:10px; --shadow:0 10px 30px rgba(0,0,0,.08);
+      --blur:10px;
     }
-    @media (prefers-color-scheme:dark){
-      :root{ --paper:#0a0a0a; --soft:#0f0f10; --line:rgba(255,255,255,.08); --tint:#2a2a2c; }
-      body{ color:#f3f3f3; }
-    }
-
     *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0; font: 16px/1.45 -apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display",Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,Apple Color Emoji,"Segoe UI Emoji";
-      color:var(--ink); background:var(--paper);
-      -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
-    }
-    a{color:inherit}
+    html,body{height:100%; background:var(--bg); color:var(--ink); -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;}
+    body{margin:0; font:16px/1.5 -apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display",Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji";}
 
-    /* ---------- Header ---------- */
-    header.site{
-      position:sticky; top:0; z-index:40; backdrop-filter:saturate(180%) blur(14px);
-      background:color-mix(in srgb, var(--paper) 78%, transparent);
+    /* Header */
+    header{
+      position:sticky; top:0; z-index:30;
+      backdrop-filter:saturate(180%) blur(var(--blur));
+      background:linear-gradient(to bottom, rgba(255,255,255,.75), rgba(255,255,255,.55) 40%, transparent);
       border-bottom:1px solid var(--line);
     }
-    .bar{display:flex; align-items:center; justify-content:space-between; gap:12px; max-width:1200px; margin:0 auto; padding:12px 20px}
-    .brand{display:flex; align-items:center; gap:10px; font-weight:600; letter-spacing:.2px}
-    .brand .dot{width:10px; height:10px; border-radius:50%; background:var(--accent); box-shadow:0 0 0 4px color-mix(in srgb, var(--accent) 18%, transparent)}
-    .nav{display:flex; gap:8px; align-items:center}
-    .chip{padding:8px 12px; border:1px solid var(--line); border-radius:999px; background:color-mix(in srgb, var(--soft) 60%, transparent); cursor:pointer; user-select:none}
-    .chip[aria-pressed="true"]{background:var(--ink); color:#fff; border-color:transparent}
-    .search{position:relative; min-width:180px}
-    .search input{width:100%; padding:10px 12px 10px 34px; border-radius:999px; border:1px solid var(--line); background:var(--soft); outline:none}
-    .search svg{position:absolute; left:10px; top:50%; transform:translateY(-50%); opacity:.7}
+    .wrap{max-width:1200px; margin:0 auto; padding:14px 20px; display:flex; gap:14px; align-items:center; justify-content:space-between;}
+    .brand{display:flex; align-items:center; gap:10px; font-weight:600; letter-spacing:.02em;}
+    .brand-logo{width:28px; height:28px; border-radius:999px; background:#000;}
+    .pill{
+      display:flex; align-items:center; gap:10px; border:1px solid var(--line);
+      background:rgba(255,255,255,.65); border-radius:999px; padding:8px 12px; box-shadow:var(--shadow);
+    }
+    .pill input{
+      border:0; outline:0; background:transparent; font:inherit; width:220px; color:var(--ink);
+    }
+    .btn, button{
+      border:1px solid var(--line); background:#fff; border-radius:999px; padding:10px 16px; cursor:pointer;
+      font-weight:600; transition:transform .2s ease, box-shadow .2s ease, opacity .2s ease;
+      box-shadow:0 6px 20px rgba(0,0,0,.06);
+    }
+    .btn:hover{transform:translateY(-1px)}
+    .btn[aria-pressed="true"]{background:#111; color:#fff;}
 
-    /* ---------- Hero ---------- */
-    .hero{max-width:1200px; margin:24px auto 8px; padding:0 20px}
-    .title{font-size: clamp(36px, 6vw, 64px); line-height:1.04; font-weight:700; letter-spacing:-.5px; margin:6px 0}
-    .sub{opacity:.7; margin:0}
+    /* Toolbar */
+    .toolbar{display:flex; gap:10px; align-items:center; flex-wrap:wrap;}
+    .seg{
+      display:flex; border:1px solid var(--line); border-radius:999px; padding:4px; background:rgba(255,255,255,.7);
+    }
+    .seg button{
+      border:0; background:transparent; border-radius:999px; padding:8px 14px; font-weight:600; color:var(--muted);
+    }
+    .seg button[aria-pressed="true"]{background:#111; color:#fff;}
 
-    /* ---------- Masonry Gallery ---------- */
-    .gallery{max-width:1200px; margin:24px auto 120px; padding:0 20px}
-    .masonry{column-gap:16px}
-    .masonry-1{column-count:1}
-    .masonry-2{column-count:2}
-    .masonry-3{column-count:3}
-    .masonry-4{column-count:4}
-    .masonry-5{column-count:5}
-    @media (max-width:1200px){ .masonry-5{column-count:4} }
-    @media (max-width:980px){ .masonry-4,.masonry-5{column-count:3} }
-    @media (max-width:720px){ .masonry-3,.masonry-4,.masonry-5{column-count:2} }
-    @media (max-width:520px){ .masonry-2,.masonry-3,.masonry-4,.masonry-5{column-count:1} }
+    /* Grid (Apple-clean masonry via CSS columns) */
+    main{max-width:1200px; margin:18px auto 80px; padding:0 20px;}
+    .masonry{column-gap:18px;}
+    @media (min-width:640px){ .masonry{column-count:2;} }
+    @media (min-width:980px){ .masonry{column-count:3;} }
+    @media (min-width:1280px){ .masonry{column-count:4;} }
 
-    figure.card{position:relative; break-inside:avoid; margin:0 0 16px 0; border-radius:20px; overflow:hidden; background:var(--soft); border:1px solid var(--line)}
-    figure.card img{display:block; width:100%; height:auto; opacity:0; transform:translateY(6px) scale(.98); filter:blur(6px); transition:opacity .5s ease, transform .6s cubic-bezier(.2,.8,.2,1), filter .7s ease}
-    figure.card img.loaded{opacity:1; transform:none; filter:blur(0)}
-    figcaption{position:absolute; left:0; right:0; bottom:0; padding:10px 12px; background:linear-gradient(to top, rgba(0,0,0,.45), rgba(0,0,0,0)); color:#fff; font-size:12px; letter-spacing:.2px}
-    .badge{position:absolute; top:10px; left:10px; font-size:11px; padding:4px 8px; border-radius:999px; background:rgba(0,0,0,.55); color:#fff; backdrop-filter: blur(6px)}
-    .hover{position:absolute; inset:0; opacity:0; transition:opacity .3s ease}
-    figure.card:hover .hover{opacity:1}
+    .tile{break-inside:avoid; display:block; margin:0 0 18px; position:relative; border-radius:var(--radius); overflow:hidden; background:var(--bg-2); border:1px solid var(--line);}
+    .tile .ph{
+      aspect-ratio:2/3; background:linear-gradient(135deg, #eee, #fff); filter:saturate(.9) contrast(.98);
+      animation:pulse 1.2s ease-in-out infinite;
+    }
+    @keyframes pulse{50%{opacity:.65}}
+    .tile img{
+      width:100%; height:auto; display:block; opacity:0; transform:translateY(6px) scale(1.01);
+      transition:opacity .45s ease, transform .6s cubic-bezier(.2,.8,.2,1);
+    }
+    .tile.loaded img{opacity:1; transform:none;}
+    .tile .meta{
+      position:absolute; inset:auto 8px 8px 8px; display:flex; justify-content:space-between; align-items:center;
+      background:linear-gradient(to top, rgba(0,0,0,.32), rgba(0,0,0,0)); color:#fff; padding:40px 8px 8px; border-radius:0 0 var(--radius) var(--radius);
+      opacity:0; transition:opacity .25s ease;
+    }
+    .tile:hover .meta{opacity:1}
+    .heart{
+      width:34px; height:34px; border-radius:999px; display:grid; place-items:center; background:rgba(255,255,255,.15); border:1px solid rgba(255,255,255,.25);
+      backdrop-filter:blur(6px);
+    }
+    .heart svg{width:18px; height:18px; fill:none; stroke:#fff; stroke-width:2;}
+    .heart[data-on="true"] svg{fill:#fff; stroke:#fff}
 
-    /* ---------- Lightbox ---------- */
-    .lightbox{position:fixed; inset:0; z-index:60; display:none; place-items:center; background:rgba(0,0,0,.92)}
-    .lightbox.open{display:grid}
-    .lb-stage{position:relative; width:100%; height:100%; display:grid; place-items:center}
-    .lb-img{max-width:96vw; max-height:90vh; object-fit:contain; will-change:transform}
-    .lb-ui{position:absolute; left:0; right:0; top:0; display:flex; align-items:center; justify-content:space-between; gap:10px; padding:10px 14px; color:#fff}
-    .lb-ui .tray{display:flex; gap:8px; align-items:center}
-    .icon-btn{display:inline-grid; place-items:center; width:36px; height:36px; border-radius:10px; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); cursor:pointer}
-    .icon-btn:hover{background:rgba(255,255,255,.12)}
-    .lb-caption{position:absolute; left:0; right:0; bottom:0; color:#fff; padding:10px 14px; opacity:.9; text-shadow:0 1px 0 rgba(0,0,0,.6)}
+    /* Lightbox */
+    .lightbox{
+      position:fixed; inset:0; z-index:40; display:none; place-items:center; background:rgba(0,0,0,.85);
+      backdrop-filter:blur(4px);
+    }
+    .lightbox.on{display:grid; animation:fadeIn .24s ease;}
+    @keyframes fadeIn{from{opacity:0} to{opacity:1}}
+    .viewer{
+      position:relative; max-width:96vw; max-height:92vh; border-radius:20px; overflow:hidden; background:#000; box-shadow:0 20px 80px rgba(0,0,0,.6);
+    }
+    .viewer img{display:block; max-width:100%; max-height:92vh; width:auto; height:auto; margin:auto; user-select:none;}
+    .ui{
+      position:absolute; inset:auto 0 0 0; display:flex; justify-content:space-between; align-items:center;
+      padding:10px 14px; color:#fff; background:linear-gradient(to top, rgba(0,0,0,.55), rgba(0,0,0,0));
+    }
+    .ui .controls{display:flex; gap:8px; align-items:center;}
+    .ghost-btn{
+      display:grid; place-items:center; width:40px; height:40px; border-radius:999px; border:1px solid rgba(255,255,255,.3);
+      background:rgba(255,255,255,.12); cursor:pointer;
+    }
+    .ghost-btn:hover{background:rgba(255,255,255,.2)}
+    .index{font-weight:600; opacity:.9}
 
-    /* ---------- 18+ Gate ---------- */
-    .gate{position:fixed; inset:0; z-index:100; display:grid; place-items:center; background:var(--gate-grad); color:#f7f7f7}
-    .gate::before{content:""; position:absolute; inset:-20%; background:radial-gradient(80% 60% at 50% 40%, rgba(255,255,255,.06), transparent 62%); filter:blur(30px); opacity:.7; pointer-events:none}
-    .gate-doors{position:absolute; inset:0; perspective:1200px; overflow:hidden}
-    .door{position:absolute; top:0; bottom:0; width:52vw; background:linear-gradient( to bottom, rgba(255,255,255,.06), rgba(255,255,255,.01) ),
-           repeating-linear-gradient( 90deg, rgba(255,255,255,.08) 0 1px, transparent 1px 40px );
-          border:1px solid rgba(255,255,255,.10); box-shadow:inset 0 0 60px rgba(0,0,0,.35)}
-    .door.left{left:0; transform-origin:left center;}
-    .door.right{right:0; transform-origin:right center;}
-    .crest{position:absolute; inset:auto; top:48px; left:50%; transform:translateX(-50%); width:min(520px, 86vw); height:120px; border-radius:18px; border:1px solid rgba(255,255,255,.14); backdrop-filter: blur(10px); background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.02)); display:grid; place-items:center; box-shadow:0 10px 40px rgba(0,0,0,.35)}
-    .crest h1{margin:0; font-size:clamp(22px, 4vw, 28px); letter-spacing:2px; font-weight:600}
-    .gate-content{position:relative; text-align:center; padding:20px; z-index:1}
-    .gate h2{margin:0 0 8px 0; font-size:clamp(40px,6vw,60px); letter-spacing:.4px}
-    .gate p{margin:0 0 22px 0; opacity:.85}
-    .cta{display:inline-flex; gap:10px}
-    .btn{appearance:none; border:1px solid rgba(255,255,255,.16); color:#fff; background:rgba(255,255,255,.05); padding:12px 18px; border-radius:999px; cursor:pointer; font-weight:600}
-    .btn.primary{background:var(--accent); border-color:color-mix(in srgb, var(--accent) 70%, #000 30%)}
-    .gate-note{font-size:12px; opacity:.7; margin-top:10px}
+    /* Age Gate */
+    .gate{
+      position:fixed; inset:0; z-index:50; display:grid; place-items:center; background:radial-gradient(1200px 800px at 50% 30%, #ffffff, #f2f2f2 60%, #eaeaea 100%);
+    }
+    .gate-inner{position:relative; width:min(1100px, 92vw); height:min(700px, 70vh); perspective:1200px;}
+    .door{
+      position:absolute; top:0; width:50%; height:100%; background:linear-gradient(180deg, #fefefe, #f5f5f5);
+      border:1px solid var(--line); box-shadow:0 40px 80px rgba(0,0,0,.15) inset, 0 10px 30px rgba(0,0,0,.08);
+      will-change:transform;
+    }
+    .door.left{left:0; border-radius:24px 0 0 24px; transform-origin:left center;}
+    .door.right{right:0; border-radius:0 24px 24px 0; transform-origin:right center;}
+    .arch{
+      position:absolute; inset:18px; border-radius:22px; border:1px solid var(--line);
+      background:linear-gradient(180deg, rgba(0,0,0,.03), transparent 30%);
+    }
+    .crest{
+      position:absolute; top:-70px; left:50%; transform:translateX(-50%);
+      background:#111; color:#fff; padding:10px 16px; border-radius:999px; letter-spacing:.12em; font-weight:700; font-size:12px;
+      box-shadow:0 10px 30px rgba(0,0,0,.2);
+    }
+    .gate-copy{
+      position:absolute; inset:0; display:grid; place-items:center; text-align:center; padding:20px; pointer-events:none;
+    }
+    .gate-title{font-family:ui-serif,Georgia,Times,serif; font-size:clamp(28px, 6vw, 56px); letter-spacing:.02em; font-weight:600;}
+    .gate-sub{color:var(--muted); max-width:720px; margin:12px auto 18px;}
+    .gate-actions{display:flex; gap:10px; justify-content:center; pointer-events:auto;}
+    .gate .fine{font-size:12px; color:#777; margin-top:6px;}
 
-    /* Gate animations */
-    .gate.ready .door{transform:translateZ(0)}
-    .gate.opening .door.left{animation:doorLeft 1.8s cubic-bezier(.2,.9,.2,1) forwards}
-    .gate.opening .door.right{animation:doorRight 1.8s cubic-bezier(.2,.9,.2,1) forwards}
-    .gate.opening .gate-content{animation:fadeUp .7s ease .8s forwards}
-    .gate.done{display:none}
+    .gate.open .door.left{ animation:openL 1.2s cubic-bezier(.2,.8,.2,1) forwards; }
+    .gate.open .door.right{ animation:openR 1.2s cubic-bezier(.2,.8,.2,1) forwards; }
+    .gate.open{ animation:gateFade .8s ease .9s forwards; }
+    @keyframes openL{ to{ transform:translateX(-52%) rotateY(-22deg); opacity:.7 } }
+    @keyframes openR{ to{ transform:translateX(52%) rotateY(22deg); opacity:.7 } }
+    @keyframes gateFade{ to{ opacity:0; visibility:hidden } }
 
-    @keyframes doorLeft{ 0%{ transform:rotateY(0) translateX(0)} 60%{transform:rotateY(-12deg) translateX(-40%)} 100%{ transform:rotateY(-16deg) translateX(-120%) } }
-    @keyframes doorRight{ 0%{ transform:rotateY(0) translateX(0)} 60%{transform:rotateY(12deg) translateX(40%)} 100%{ transform:rotateY(16deg) translateX(120%) } }
-    @keyframes fadeUp{ from{ opacity:1; filter:blur(0)} to{opacity:0; filter:blur(10px)} }
-
-    /* Site reveal blur-fade after gate */
-    .reveal-wrap{filter:blur(18px); opacity:0; transform:translateY(8px); transition:filter .9s ease, opacity .9s ease, transform .9s ease}
-    .reveal-wrap.revealed{filter:blur(0); opacity:1; transform:none}
-
-    /* Empty state */
-    .empty{max-width:780px; margin:40px auto; padding:20px; text-align:center; border:1px dashed var(--tint); border-radius:16px; background:color-mix(in srgb, var(--soft) 60%, transparent)}
-    .empty code{background:rgba(0,0,0,.06); padding:2px 6px; border-radius:6px}
+    /* Helper */
+    .hidden{display:none !important}
 
     /* Footer */
-    footer{border-top:1px solid var(--line); padding:30px 20px; color:rgba(0,0,0,.6)}
-    @media (prefers-color-scheme:dark){ footer{color:rgba(255,255,255,.65)} }
-
-    /* Reduced motion respectfully disables big moves */
-    @media (prefers-reduced-motion:reduce){
-      .gate.opening .door.left, .gate.opening .door.right{animation:none}
-      .gate{display:none}
-      .reveal-wrap{filter:none; opacity:1; transform:none}
-    }
+    footer{max-width:1200px; margin:40px auto 80px; padding:0 20px; color:#6b7280; font-size:13px;}
+    footer .row{display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:space-between; border-top:1px solid var(--line); padding-top:16px;}
   </style>
 </head>
 <body>
-  <!-- 18+ GATE -->
-  <div id="age-gate" class="gate ready" role="dialog" aria-modal="true" aria-labelledby="gate-h">
-    <div class="gate-doors" aria-hidden="true">
-      <div class="door left"></div>
-      <div class="door right"></div>
-    </div>
-    <div class="crest"><h1>Eros • Curated Erotic Art</h1></div>
-    <div class="gate-content">
-      <h2 id="gate-h">Enter if you are 18+</h2>
-      <p>By entering you confirm you are of legal age and consent to view tasteful, adult‑oriented artwork.</p>
-      <div class="cta">
-        <button class="btn primary" id="enterBtn" aria-label="Enter the site">Enter</button>
-        <a class="btn" href="https://www.wikipedia.org" rel="noopener">Exit</a>
+
+  <!-- AGE GATE -->
+  <div id="ageGate" class="gate" role="dialog" aria-modal="true" aria-label="Age Verification">
+    <div class="gate-inner">
+      <div class="crest">MAISON</div>
+      <div class="door left"><div class="arch"></div></div>
+      <div class="door right"><div class="arch"></div></div>
+      <div class="gate-copy">
+        <div>
+          <div class="gate-title">Enter if you are 18+</div>
+          <p class="gate-sub">This collection features tasteful, artistic imagery intended for adults. By entering, you confirm you are at least 18 years old (or the age of majority in your region).</p>
+          <div class="gate-actions">
+            <button id="enter" class="btn" style="background:#111;color:#fff;">Enter</button>
+            <button id="leave" class="btn" onclick="location.href='https://www.google.com'">Leave</button>
+          </div>
+          <div class="fine">You’ll only see this once per device for 30 days.</div>
+        </div>
       </div>
-      <div class="gate-note">Your choice is remembered on this device.</div>
     </div>
   </div>
 
-  <!-- SITE WRAP (revealed after gate) -->
-  <div id="site" class="reveal-wrap" aria-hidden="true">
-    <header class="site" role="banner">
-      <div class="bar">
-        <div class="brand" aria-label="Site brand">
-          <span class="dot" aria-hidden="true"></span>
-          <span>Eros</span>
-        </div>
-        <nav class="nav" aria-label="Filters">
-          <button class="chip" data-filter="all" aria-pressed="true">All</button>
-          <button class="chip" data-filter="tag:set">Sets</button>
-          <button class="chip" data-filter="tag:solo">Solo</button>
-        </nav>
-        <div class="search" role="search">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M21 21l-4.2-4.2M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-          <input id="q" type="search" placeholder="Search titles, tags…" aria-label="Search gallery" />
-        </div>
+  <!-- HEADER -->
+  <header>
+    <div class="wrap">
+      <div class="brand">
+        <div class="brand-logo" aria-hidden="true"></div>
+        <span>Maison</span>
       </div>
-    </header>
-
-    <section class="hero" aria-label="Hero">
-      <h1 class="title">Curated. Minimal. Eternal.</h1>
-      <p class="sub">An elegant, Apple‑style gallery for sophisticated erotic art. Drop your photos into <code>/gallery</code> and publish.</p>
-    </section>
-
-    <section class="gallery" aria-label="Gallery">
-      <div id="grid" class="masonry masonry-4" aria-live="polite"></div>
-      <div id="empty" class="empty" hidden>
-        <h3>No images found yet</h3>
-        <p>To get started, create a <code>gallery</code> folder at your site root and drop your <strong>JPG/PNG/WebP/AVIF</strong> files inside.</p>
-        <p>Recommended: add <code>gallery-manifest.json</code> with an <code>images</code> array for perfect control (see comment in source). Otherwise, we’ll auto‑scan common filenames.</p>
-        <p>Host on GitHub Pages? Just push and you’re live.</p>
-      </div>
-    </section>
-
-    <!-- Lightbox / Fullscreen Viewer -->
-    <div id="lightbox" class="lightbox" aria-hidden="true" aria-label="Image viewer">
-      <div class="lb-stage">
-        <div class="lb-ui">
-          <div class="tray">
-            <button class="icon-btn" id="lbPrev" title="Previous (←)" aria-label="Previous">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15 19l-7-7 7-7" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-            <button class="icon-btn" id="lbNext" title="Next (→)" aria-label="Next">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 5l7 7-7 7" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-          </div>
-          <div class="tray">
-            <button class="icon-btn" id="lbFS" title="Fullscreen (F)" aria-label="Toggle fullscreen">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 3H5a2 2 0 0 0-2 2v4M21 9V5a2 2 0 0 0-2-2h-4M15 21h4a2 2 0 0 0 2-2v-4M3 15v4a2 2 0 0 0 2 2h4" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg>
-            </button>
-            <a class="icon-btn" id="lbDL" title="Download" aria-label="Download" download>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 21h16" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </a>
-            <button class="icon-btn" id="lbClose" title="Close (Esc)" aria-label="Close">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 6l12 12M18 6L6 18" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg>
-            </button>
-          </div>
+      <div class="toolbar">
+        <div class="pill" role="search">
+          <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.5 3.5a7 7 0 1 1 0 14 7 7 0 0 1 0-14Zm0 2a5 5 0 1 0 0 10 5 5 0 0 0 0-10Zm9.2 14.8-4.1-4.1" stroke="#111" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg>
+          <input id="search" placeholder="Search by name…" aria-label="Search photos"/>
         </div>
-        <img id="lbImg" class="lb-img" alt="" />
-        <div id="lbCap" class="lb-caption"></div>
+        <div class="seg" role="tablist" aria-label="View">
+          <button id="tab-all" role="tab" aria-pressed="true">All</button>
+          <button id="tab-fav" role="tab" aria-pressed="false">Favorites</button>
+          <button id="tab-slide" role="tab" aria-pressed="false">Slideshow</button>
+        </div>
       </div>
     </div>
+  </header>
 
-    <footer>
-      <div style="max-width:1200px; margin:0 auto">
-        <small>© <span id="year"></span> Eros. All rights reserved. Content for adults 18+ only. <a href="#" id="resetGate">Reset age gate</a>.</small>
+  <!-- MAIN -->
+  <main>
+    <section id="grid" class="masonry" aria-live="polite"></section>
+  </main>
+
+  <!-- LIGHTBOX -->
+  <div id="lightbox" class="lightbox" aria-hidden="true" aria-label="Image viewer">
+    <div class="viewer" id="viewer" tabindex="-1">
+      <img id="viewerImg" alt="Artwork" />
+      <div class="ui">
+        <div class="index" id="lbIndex">1 / 1</div>
+        <div class="controls">
+          <button class="ghost-btn" id="prev" title="Previous (←)">
+            <svg width="18" height="18" viewBox="0 0 24 24"><path d="M15 5 8 12l7 7" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button class="ghost-btn" id="next" title="Next (→)">
+            <svg width="18" height="18" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button class="ghost-btn" id="toggleFS" title="Fullscreen (F)">
+            <svg width="18" height="18" viewBox="0 0 24 24"><path d="M8 3H3v5M21 8V3h-5M3 16v5h5M16 21h5v-5" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+          </button>
+          <button class="ghost-btn" id="play" title="Play/Pause (Space)">
+            <svg id="playIcon" width="18" height="18" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="#fff"/></svg>
+          </button>
+          <button class="ghost-btn" id="close" title="Close (Esc)">
+            <svg width="18" height="18" viewBox="0 0 24 24"><path d="M5 5l14 14M19 5 5 19" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+          </button>
+        </div>
       </div>
-    </footer>
+    </div>
   </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="row">
+      <div>© <span id="year"></span> Maison. All imagery © their respective owners. Adults 18+.</div>
+      <div style="display:flex; gap:8px;">
+        <a class="btn" href="#" id="downloadManifest">Export manifest</a>
+        <a class="btn" href="#" id="how">How to add photos</a>
+      </div>
+    </div>
+  </footer>
 
   <script>
-  (function(){
-    const CONFIG = {
-      folder: 'gallery',
-      manifest: 'gallery-manifest.json',
-      txtlist: 'gallery.txt',
-      scanLimit: 360,           // total images max for fallback scanning
-      missStreakLimit: 18,      // stop pattern if many misses
-      columns: 4,               // default desktop columns
-    };
+  /* =========================
+     CONFIG (edit if desired)
+     ========================= */
+  const CONFIG = {
+    galleryPath: 'gallery/',            // put your images in /gallery/
+    useManifestFirst: true,             // if gallery/manifest.json exists, it will be used
+    guessPattern: 'img-',               // base name for auto-guessing
+    startIndex: 1, endIndex: 999,       // range to probe when auto-guessing
+    zeroPad: 4,                         // img-0001.jpg
+    exts: ['webp','jpg','jpeg','png','avif'],
+    breakAfterMisses: 25,               // stop guessing after this many consecutive 404s
+    rememberGateDays: 30,
+    slideDelayMs: 4000
+  };
 
-    const state = {
-      images: /** @type {{src:string,caption?:string,tags?:string[]}[]} */([]),
-      filtered: [],
-      ix: 0, open:false,
-    };
+  /* =========================
+     AGE GATE
+     ========================= */
+  const gate = document.getElementById('ageGate');
+  const enterBtn = document.getElementById('enter');
+  const LEAVE_URL = 'https://www.google.com';
+  function gateOk(){
+    const t = localStorage.getItem('maison.age.ok');
+    if(!t) return false;
+    try{
+      const o = JSON.parse(t);
+      return Date.now() < o.exp;
+    }catch(e){ return false; }
+  }
+  function setGateOK(){
+    const exp = Date.now() + CONFIG.rememberGateDays*24*60*60*1000;
+    localStorage.setItem('maison.age.ok', JSON.stringify({exp}));
+  }
+  if(gateOk()){ gate.style.display='none'; } else {
+    // keep visible
+  }
+  enterBtn?.addEventListener('click', () => {
+    setGateOK();
+    gate.classList.add('open');
+    setTimeout(()=>{ gate.style.display='none'; }, 1300);
+  });
+  document.getElementById('leave')?.addEventListener('click', () => location.href = LEAVE_URL);
 
-    const $ = sel => document.querySelector(sel);
-    const grid = $('#grid');
-    const empty = $('#empty');
+  /* =========================
+     UTIL
+     ========================= */
+  const $ = sel => document.querySelector(sel);
+  const grid = $('#grid');
+  const searchInput = $('#search');
+  const yearSpan = $('#year'); yearSpan.textContent = new Date().getFullYear();
+  const favKey = 'maison.favs';
+  let favs = new Set(JSON.parse(localStorage.getItem(favKey) || '[]'));
+  const saveFavs = () => localStorage.setItem(favKey, JSON.stringify([...favs]));
+  const pad = (n, z=CONFIG.zeroPad) => String(n).padStart(z,'0');
+  const qsImages = new URLSearchParams(location.search).get('images');
+  const ownerMode = new URLSearchParams(location.search).get('owner') === '1';
 
-    /* ---------------- AGE GATE ---------------- */
-    const gate = $('#age-gate');
-    const site = $('#site');
-    const enterBtn = $('#enterBtn');
+  /* =========================
+     IMAGE SOURCE LOADING
+     ========================= */
+  async function loadManifest(){
+    if(!CONFIG.useManifestFirst) return null;
+    try{
+      const r = await fetch(CONFIG.galleryPath + 'manifest.json', {cache:'no-cache'});
+      if(!r.ok) return null;
+      const j = await r.json();
+      const images = Array.isArray(j.images) ? j.images : j;
+      return images.filter(Boolean);
+    }catch(e){ return null; }
+  }
 
-    function openGate(){
-      gate.classList.add('opening');
-      // after doors open, hide gate and reveal site
-      setTimeout(()=>{
-        gate.classList.add('done');
-        site.removeAttribute('aria-hidden');
-        site.classList.add('revealed');
-      }, 1800);
-    }
-
-    function initGate(){
-      const ok = localStorage.getItem('eros_age_ok') === 'true';
-      if(ok){ gate.classList.add('done'); site.removeAttribute('aria-hidden'); site.classList.add('revealed'); return; }
-      enterBtn.addEventListener('click', ()=>{
-        localStorage.setItem('eros_age_ok','true');
-        openGate();
+  async function urlExists(url){
+    try{
+      const r = await fetch(url, {method:'HEAD'});
+      return r.ok;
+    }catch(e){
+      // fallback by trying to load image object (slower)
+      return new Promise(res=>{
+        const im = new Image(); im.onload=()=>res(true); im.onerror=()=>res(false); im.src=url;
       });
     }
+  }
 
-    $('#resetGate').addEventListener('click', (e)=>{ e.preventDefault(); localStorage.removeItem('eros_age_ok'); alert('Age gate reset for this browser. Reload to see the gate again.'); });
-
-    /* ---------------- DATA LOADERS ---------------- */
-    async function fetchMaybe(url, opt){ try{ const r = await fetch(url, opt); if(!r.ok) return null; return r; }catch{ return null; } }
-
-    async function tryManifest(){
-      const r = await fetchMaybe(CONFIG.manifest, {cache:'no-store'});
-      if(!r) return false;
-      const json = await r.json().catch(()=>null);
-      if(!json || !json.images) return false;
-      document.title = (json.title ? json.title + ' — ' : '') + document.title;
-      for(const item of json.images){
-        if(typeof item === 'string') state.images.push({src:item});
-        else if(item && item.src) state.images.push({src:item.src, caption:item.caption, tags:item.tags||[]});
+  async function guessImages(){
+    const found = [];
+    let misses=0;
+    outer: for(let i=CONFIG.startIndex; i<=CONFIG.endIndex; i++){
+      let hit=false;
+      for(const ext of CONFIG.exts){
+        const url = `${CONFIG.galleryPath}${CONFIG.guessPattern}${pad(i)}.${ext}`;
+        /* eslint-disable no-await-in-loop */
+        if(await urlExists(url)){ found.push(url); hit=true; break; }
       }
-      return state.images.length>0;
+      if(!hit){ misses++; if(misses>=CONFIG.breakAfterMisses) break outer; }
+      else { misses=0; }
     }
+    return found;
+  }
 
-    async function tryTxtList(){
-      const r = await fetchMaybe(CONFIG.txtlist, {cache:'no-store'});
-      if(!r) return false;
-      const txt = await r.text();
-      const lines = txt.split(/\r?\n/).map(s=>s.trim()).filter(Boolean);
-      for(const src of lines){ state.images.push({src}); }
-      return state.images.length>0;
+  function parseQSImages(){
+    if(!qsImages) return null;
+    return qsImages.split(',').map(s=>s.trim()).filter(Boolean);
+  }
+
+  async function loadImagesList(){
+    const fromQS = parseQSImages();
+    if(fromQS?.length) return fromQS;
+    const man = await loadManifest();
+    if(man?.length) return man;
+    const guessed = await guessImages();
+    return guessed;
+  }
+
+  /* =========================
+     RENDER GRID
+     ========================= */
+  let allPhotos = [];
+  let viewMode = 'all'; // 'all' | 'fav' | 'slide'
+  async function initGrid(){
+    const list = await loadImagesList();
+    if(!list.length){
+      grid.innerHTML = `
+        <div class="tile" style="padding:24px; text-align:center;">
+          <div style="font-weight:600; font-size:18px; margin-bottom:6px;">No images found</div>
+          <div style="color:#6b7280">Add files to <code>${CONFIG.galleryPath}</code> as <code>${CONFIG.guessPattern}${pad(1)}.jpg</code> … or create <code>gallery/manifest.json</code>.</div>
+        </div>`;
+      return;
     }
+    allPhotos = list.map((src,i)=>({id:String(i+1), src, name: src.split('/').pop() || `Image ${i+1}`}));
+    render();
+  }
 
-    const exts=['jpg','jpeg','png','webp','avif'];
-    async function exists(path){ const r = await fetchMaybe(path, {method:'HEAD', cache:'no-store'}); return !!(r && r.ok); }
-
-    async function scanPattern(prefix, start, end, pad, exts){
-      let misses=0, found=0;
-      for(let n=start; n<=end && state.images.length<CONFIG.scanLimit; n++){
-        let num = pad ? String(n).padStart(pad,'0') : String(n);
-        let hit = false;
-        for(const ext of exts){
-          const p = `${CONFIG.folder}/${prefix}${num}.${ext}`;
-          // eslint-disable-next-line no-await-in-loop
-          if(await exists(p)){ state.images.push({src:p}); hit=true; found++; break; }
-        }
-        if(!hit){ misses++; if(misses>=CONFIG.missStreakLimit && found===0) break; }
-      }
-    }
-
-    async function fallbackScan(){
-      // Common camera/file export naming patterns
-      await scanPattern('IMG_', 1, 9999, 4, exts);    // IMG_0001.jpg
-      await scanPattern('image-', 1, 2000, 0, exts);  // image-1.jpg
-      await scanPattern('photo (', 1, 2000, 0, exts); // photo (1).jpg -> handle closing ) below
-      // fix any with missing ')' from above attempt
-      state.images = state.images.map(it=> it.src.includes('photo (') && !it.src.includes(')') ? ({...it, src: it.src.replace(/photo \((\d+)/,'photo ($1)')}) : it);
-      await scanPattern('DSC_', 1, 9999, 4, exts);    // DSC_0001.jpg
-      await scanPattern('', 1, 300, 0, exts);         // 1.jpg
-    }
-
-    /* ---------------- RENDER ---------------- */
-    function setColumns(){
-      const w = window.innerWidth; let c = 4;
-      if(w>=1300) c=5; else if(w>=980) c=4; else if(w>=720) c=3; else if(w>=520) c=2; else c=1;
-      grid.className = `masonry masonry-${c}`;
-    }
-
-    const io = new IntersectionObserver((entries)=>{
-      for(const e of entries){ if(e.isIntersecting){ const img = e.target; img.src = img.dataset.src; img.onload=()=>img.classList.add('loaded'); io.unobserve(img); } }
-    }, {rootMargin:'120px 0px'});
-
-    function figure({src, caption, tags}, idx){
-      const f = document.createElement('figure'); f.className='card'; f.dataset.index = String(idx);
-      const b = document.createElement('div'); b.className='hover'; f.appendChild(b);
-      const img = document.createElement('img'); img.loading='lazy'; img.decoding='async'; img.alt = caption || src.split('/').pop(); img.dataset.src = src; io.observe(img); f.appendChild(img);
-      if(caption){ const cap = document.createElement('figcaption'); cap.textContent = caption; f.appendChild(cap); }
-      if(tags && tags.length){ const bad = document.createElement('div'); bad.className='badge'; bad.textContent=tags[0]; f.appendChild(bad); f.dataset.tags = tags.join(','); }
-      f.addEventListener('click', ()=> openLightbox(idx));
-      return f;
-    }
-
-    function render(list){
-      grid.innerHTML='';
-      if(!list.length){ empty.hidden=false; return; } else empty.hidden=true;
-      const frag = document.createDocumentFragment();
-      list.forEach((it,i)=> frag.appendChild( figure(it, i) ));
-      grid.appendChild(frag);
-    }
-
-    /* ---------------- FILTER & SEARCH ---------------- */
-    function bindFilters(){
-      const chips = document.querySelectorAll('.chip');
-      chips.forEach(ch=>{
-        ch.addEventListener('click', ()=>{
-          chips.forEach(x=>x.setAttribute('aria-pressed','false'));
-          ch.setAttribute('aria-pressed','true');
-          applyFilter(ch.dataset.filter, $('#q').value.trim());
-        })
-      })
-      $('#q').addEventListener('input', (e)=>{
-        const active = document.querySelector('.chip[aria-pressed="true"]');
-        applyFilter(active?.dataset.filter, e.target.value.trim());
-      })
-    }
-
-    function applyFilter(filter, q){
-      let list = [...state.images];
-      if(filter && filter.startsWith('tag:')){
-        const want = filter.split(':')[1];
-        list = list.filter(it=> (it.tags||[]).some(t=>t.toLowerCase().includes(want)));
-      }
-      if(q){ const Q = q.toLowerCase(); list = list.filter(it=> (it.caption||'').toLowerCase().includes(Q) || it.src.toLowerCase().includes(Q) || (it.tags||[]).some(t=>t.toLowerCase().includes(Q))); }
-      state.filtered = list; render(list);
-    }
-
-    /* ---------------- LIGHTBOX ---------------- */
-    const lb = $('#lightbox'); const lbImg = $('#lbImg'); const lbCap=$('#lbCap');
-    const lbPrev = $('#lbPrev'); const lbNext = $('#lbNext'); const lbClose=$('#lbClose'); const lbFS=$('#lbFS'); const lbDL=$('#lbDL');
-
-    function openLightbox(idx){ state.ix=idx; lb.classList.add('open'); lb.setAttribute('aria-hidden','false'); showIx(); document.addEventListener('keydown', onKey); }
-    function closeLightbox(){ lb.classList.remove('open'); lb.setAttribute('aria-hidden','true'); document.removeEventListener('keydown', onKey); }
-    function onKey(e){ if(e.key==='Escape') closeLightbox(); else if(e.key==='ArrowRight') next(); else if(e.key==='ArrowLeft') prev(); else if(e.key.toLowerCase()==='f') toggleFS(); }
-    function prev(){ state.ix = (state.ix - 1 + state.filtered.length) % state.filtered.length; showIx(-1); }
-    function next(){ state.ix = (state.ix + 1) % state.filtered.length; showIx(1); }
-    function showIx(dir=0){ const it = state.filtered[state.ix]; lbImg.style.opacity='0'; lbImg.src = it.src; lbImg.alt = it.caption || it.src.split('/').pop(); lbImg.onload=()=>{ lbImg.animate([{opacity:0, filter:'blur(6px)'},{opacity:1, filter:'blur(0)'}], {duration:400, easing:'ease'}); lbImg.style.opacity='1'; }; lbCap.textContent = it.caption || ''; lbDL.href = it.src; }
-    function toggleFS(){ const el = document.fullscreenElement; if(!el) lb.requestFullscreen?.(); else document.exitFullscreen?.(); }
-
-    lbPrev.addEventListener('click', prev); lbNext.addEventListener('click', next); lbClose.addEventListener('click', closeLightbox); lbFS.addEventListener('click', toggleFS);
-    lb.addEventListener('click', (e)=>{ if(e.target===lb) closeLightbox(); });
-
-    /* ---------------- INIT ---------------- */
-    async function main(){
-      initGate();
-      setColumns();
-      window.addEventListener('resize', setColumns);
-      bindFilters();
-
-      let ok = await tryManifest();
-      if(!ok) ok = await tryTxtList();
-      if(!ok) await fallbackScan();
-      if(state.images.length===0){ empty.hidden=false; return; }
-      state.filtered = [...state.images];
-      render(state.filtered);
-    }
-
-    document.addEventListener('DOMContentLoaded', ()=>{
-      main(); $('#year').textContent = new Date().getFullYear();
+  function render(){
+    const q = (searchInput.value || '').trim().toLowerCase();
+    const isFav = p => favs.has(p.src);
+    const filtered = allPhotos.filter(p=>{
+      if(viewMode==='fav' && !isFav(p)) return false;
+      if(q && !p.name.toLowerCase().includes(q)) return false;
+      return true;
     });
-  })();
+    grid.innerHTML = '';
+    for(const p of filtered){
+      const tile = document.createElement('a');
+      tile.href = p.src;
+      tile.className = 'tile';
+      tile.setAttribute('data-src', p.src);
+      tile.setAttribute('data-id', p.id);
+      tile.setAttribute('aria-label', 'View image');
+      tile.addEventListener('click', e => { e.preventDefault(); openLightboxBySrc(p.src); });
+
+      const ph = document.createElement('div'); ph.className='ph'; tile.appendChild(ph);
+      const img = document.createElement('img'); img.alt = p.name.replace(/[-_]/g,' ').replace(/\.[a-z0-9]+$/i,'');
+      tile.appendChild(img);
+
+      const meta = document.createElement('div'); meta.className='meta';
+      const cap = document.createElement('div'); cap.textContent = img.alt || 'Artwork';
+      const heart = document.createElement('button'); heart.className='heart'; heart.title='Favorite'; heart.type='button';
+      heart.setAttribute('aria-pressed', String(favs.has(p.src)));
+      heart.setAttribute('data-on', String(favs.has(p.src)));
+      heart.innerHTML = '<svg viewBox="0 0 24 24"><path d="M12 21s-7.5-4.35-9.3-8.76C1.6 9.1 3.25 6 6.4 6c1.8 0 3.05.96 3.6 1.77C10.55 6.96 11.8 6 13.6 6c3.15 0 4.8 3.1 3.7 6.24C19.5 16.65 12 21 12 21z"/></svg>';
+      heart.addEventListener('click', (e)=>{
+        e.stopPropagation(); e.preventDefault();
+        if(favs.has(p.src)) favs.delete(p.src); else favs.add(p.src);
+        heart.setAttribute('data-on', String(favs.has(p.src)));
+        heart.setAttribute('aria-pressed', String(favs.has(p.src)));
+        saveFavs();
+        if(viewMode==='fav') render();
+      });
+
+      meta.appendChild(cap); meta.appendChild(heart);
+      tile.appendChild(meta);
+      grid.appendChild(tile);
+
+      lazyLoad(img, p.src, tile);
+    }
+  }
+
+  function lazyLoad(img, src, tile){
+    const io = new IntersectionObserver(entries=>{
+      for(const ent of entries){
+        if(ent.isIntersecting){
+          io.unobserve(img);
+          img.src = src;
+          img.loading = 'lazy';
+          img.decoding = 'async';
+          img.addEventListener('load', ()=> tile.classList.add('loaded'), {once:true});
+          img.addEventListener('error', ()=> { tile.remove(); }, {once:true});
+        }
+      }
+    }, {rootMargin:'400px 0px'});
+    io.observe(img);
+  }
+
+  /* =========================
+     LIGHTBOX
+     ========================= */
+  const lb = $('#lightbox');
+  const viewer = $('#viewer');
+  const viewerImg = $('#viewerImg');
+  const lbIndex = $('#lbIndex');
+  const prevBtn = $('#prev'), nextBtn = $('#next'), closeBtn = $('#close'), fsBtn = $('#toggleFS'), playBtn = $('#play');
+  let currentIndex = 0;
+  let slideTimer = null;
+
+  function openLightboxBySrc(src){
+    currentIndex = allPhotos.findIndex(p=>p.src===src);
+    if(currentIndex<0) currentIndex = 0;
+    updateLightbox();
+    lb.classList.add('on'); lb.setAttribute('aria-hidden','false');
+    viewer.focus();
+  }
+  function updateLightbox(){
+    const p = allPhotos[currentIndex];
+    viewerImg.style.opacity='0';
+    viewerImg.src = p.src;
+    viewerImg.onload = ()=>{
+      viewerImg.style.transition='opacity .35s ease, transform .35s ease';
+      viewerImg.style.opacity='1'; viewerImg.style.transform='none';
+    };
+    lbIndex.textContent = `${currentIndex+1} / ${allPhotos.length}`;
+  }
+  function closeLightbox(){
+    lb.classList.remove('on'); lb.setAttribute('aria-hidden','true');
+    stopSlide();
+  }
+  function next(){ currentIndex=(currentIndex+1)%allPhotos.length; updateLightbox(); }
+  function prev(){ currentIndex=(currentIndex-1+allPhotos.length)%allPhotos.length; updateLightbox(); }
+
+  function toggleFS(){
+    if(!document.fullscreenElement){ viewer.requestFullscreen?.(); }
+    else { document.exitFullscreen?.(); }
+  }
+
+  function startSlide(){
+    if(slideTimer) return;
+    playBtn.title='Pause (Space)';
+    document.getElementById('playIcon').outerHTML = '<svg id="playIcon" width="18" height="18" viewBox="0 0 24 24"><path d="M7 5h4v14H7zM13 5h4v14h-4z" fill="#fff"/></svg>';
+    slideTimer = setInterval(next, CONFIG.slideDelayMs);
+  }
+  function stopSlide(){
+    if(slideTimer){ clearInterval(slideTimer); slideTimer=null; }
+    playBtn.title='Play (Space)';
+    document.getElementById('playIcon').outerHTML = '<svg id="playIcon" width="18" height="18" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="#fff"/></svg>';
+  }
+  function toggleSlide(){ slideTimer ? stopSlide() : startSlide(); }
+
+  prevBtn.addEventListener('click', prev);
+  nextBtn.addEventListener('click', next);
+  closeBtn.addEventListener('click', closeLightbox);
+  fsBtn.addEventListener('click', toggleFS);
+  playBtn.addEventListener('click', toggleSlide);
+  lb.addEventListener('click', (e)=>{ if(e.target===lb) closeLightbox(); });
+
+  // Keyboard
+  window.addEventListener('keydown', (e)=>{
+    if(lb.classList.contains('on')){
+      if(e.key==='Escape') closeLightbox();
+      else if(e.key==='ArrowRight') next();
+      else if(e.key==='ArrowLeft') prev();
+      else if(e.key.toLowerCase()==='f') toggleFS();
+      else if(e.code==='Space'){ e.preventDefault(); toggleSlide(); }
+      else if(e.key.toLowerCase()==='l'){ favs.add(allPhotos[currentIndex].src); saveFavs(); }
+    }
+  });
+
+  // Touch swipe
+  (function addSwipe(el){
+    let x0=null, y0=null;
+    el.addEventListener('touchstart', e=>{ const t=e.touches[0]; x0=t.clientX; y0=t.clientY; },{passive:true});
+    el.addEventListener('touchend', e=>{
+      if(x0===null) return;
+      const t=e.changedTouches[0]; const dx=t.clientX - x0; const dy=t.clientY - y0;
+      if(Math.abs(dx)>50 && Math.abs(dx)>Math.abs(dy)) (dx<0?next:prev)();
+      x0=y0=null;
+    },{passive:true});
+  })(viewer);
+
+  /* =========================
+     CONTROLS
+     ========================= */
+  $('#tab-all').addEventListener('click', e=>{ setSeg('all', e.target); });
+  $('#tab-fav').addEventListener('click', e=>{ setSeg('fav', e.target); });
+  $('#tab-slide').addEventListener('click', e=>{ setSeg('slide', e.target); });
+
+  function setSeg(mode, btn){
+    viewMode = mode;
+    document.querySelectorAll('.seg button').forEach(b=>b.setAttribute('aria-pressed','false'));
+    btn.setAttribute('aria-pressed','true');
+    if(mode==='slide'){
+      // Open first image in lightbox and auto-play
+      openLightboxBySrc(allPhotos[0]?.src);
+      startSlide();
+    }else{
+      stopSlide();
+      render();
+    }
+  }
+
+  searchInput.addEventListener('input', ()=>render());
+
+  /* =========================
+     OWNER HELPERS
+     ========================= */
+  $('#how').addEventListener('click', (e)=>{
+    e.preventDefault();
+    alert([
+      'Add images to /gallery/ (recommended names: img-0001.jpg, img-0002.jpg, …).',
+      '— OR — create /gallery/manifest.json with: { "images": ["gallery/photo1.jpg","gallery/photo2.png"] }',
+      'Optionally pass ?images=URL1,URL2 in the page URL for testing.',
+      'Favorites are saved locally. Keyboard: ← → Esc F Space.'
+    ].join('\n'));
+  });
+
+  $('#downloadManifest').addEventListener('click', (e)=>{
+    e.preventDefault();
+    if(!allPhotos.length){ alert('No images loaded yet.'); return; }
+    const data = { images: allPhotos.map(p=>p.src) };
+    const blob = new Blob([JSON.stringify(data,null,2)], {type:'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href=url; a.download='manifest.json'; a.click();
+    URL.revokeObjectURL(url);
+  });
+
+  /* =========================
+     SW (inline, for caching)
+     ========================= */
+  if('serviceWorker' in navigator){
+    const swCode = `
+      const CACHE='maison-v1';
+      self.addEventListener('install',e=>{ e.waitUntil(caches.open(CACHE).then(c=>c.addAll(['./']))); self.skipWaiting(); });
+      self.addEventListener('activate',e=>{ e.waitUntil(self.clients.claim()); });
+      self.addEventListener('fetch',e=>{
+        const url = new URL(e.request.url);
+        // Cache-first for images
+        if(/\\.(png|jpe?g|webp|avif)$/i.test(url.pathname)){
+          e.respondWith(caches.open(CACHE).then(async cache=>{
+            const hit = await cache.match(e.request); if(hit) return hit;
+            const res = await fetch(e.request); if(res.ok) cache.put(e.request,res.clone()); return res;
+          }));
+        }
+      });
+    `;
+    const swBlob = new Blob([swCode], {type:'text/javascript'});
+    const swUrl = URL.createObjectURL(swBlob);
+    navigator.serviceWorker.register(swUrl).catch(()=>{});
+  }
+
+  /* =========================
+     START
+     ========================= */
+  initGrid();
+
   </script>
 </body>
 </html>
