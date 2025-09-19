@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Eros Noir — Classy Erotic Art</title>
+  <meta name="description" content="A refined, magazine-style gallery for tasteful, artistic erotic photography. Enter if you are 18+." />
+  <meta name="referrer" content="no-referrer" />
+  <meta name="color-scheme" content="light dark" />
+  <style>
+    /* ------------------------------
+       Apple-style design system
+       ------------------------------ */
+    :root{
+      --bg: #ffffff;
+      --ink: #0b0b0b;
+      --muted:#666;
+      --line: rgba(0,0,0,.10);
+      --card: #f8f8f8;
+      --accent: #0E6F5C; /* subtle, luxe green-teal */
+      --radius: 16px;
+      --shadow: 0 1px 2px rgba(0,0,0,.06), 0 6px 24px rgba(0,0,0,.08);
+      --blur: saturate(1.1) blur(8px);
+      --focus: 0 0 0 3px rgba(0,0,0,.08), 0 0 0 6px rgba(14,111,92,.25);
+    }
+    @media (prefers-color-scheme: dark){
+      :root{
+        --bg:#0b0b0b; --ink:#f5f5f5; --muted:#aaa; --line:rgba(255,255,255,.12);
+        --card:#101010; --shadow: 0 1px 2px rgba(0,0,0,.2), 0 10px 30px rgba(0,0,0,.4);
+        --focus: 0 0 0 3px rgba(255,255,255,.10), 0 0 0 6px rgba(14,111,92,.45);
+      }
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; background:var(--bg); color:var(--ink);
+      font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display",Inter,Segoe UI,Roboto,Helvetica,Arial;
+      -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+    }
+    a{color:var(--ink); text-decoration:none}
+    a:hover{opacity:.9}
+    .container{max-width:1200px; margin:0 auto; padding:0 20px}
+
+    /* ------------------------------
+       Header
+       ------------------------------ */
+    header{
+      position:sticky; top:0; z-index:40;
+      backdrop-filter:var(--blur);
+      background:color-mix(in srgb, var(--bg) 70%, transparent);
+      border-bottom:1px solid var(--line);
+    }
+    .nav{
+      display:flex; align-items:center; justify-content:space-between;
+      height:64px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px; font-weight:600; letter-spacing:.02em;
+    }
+    .brand-mark{
+      width:28px; height:28px; border-radius:50%;
+      background:radial-gradient(60% 60% at 38% 32%, #1d1d1d, #000);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.12), inset 0 -8px 18px rgba(255,255,255,.05);
+      outline:1px solid var(--line);
+    }
+    .nav-actions{
+      display:flex; gap:10px; align-items:center; font-size:14px;
+    }
+    .pill{
+      display:inline-flex; align-items:center; gap:.5ch;
+      padding:8px 14px; border-radius:999px; border:1px solid var(--line); background:color-mix(in srgb, var(--bg) 90%, #fff 10%);
+      box-shadow: var(--shadow);
+    }
+    .pill input{
+      border:none; background:transparent; outline:none; color:var(--ink);
+      width:160px;
+    }
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center; gap:.6ch;
+      padding:10px 16px; border-radius:12px; border:1px solid var(--line); background:color-mix(in srgb, var(--bg) 85%, #fff 15%);
+      box-shadow: var(--shadow); font-weight:600; letter-spacing:.01em; cursor:pointer;
+    }
+    .btn:hover{transform:translateY(-1px)}
+    .btn:active{transform:translateY(0)}
+    .btn:focus-visible{outline:none; box-shadow:var(--focus)}
+    .ghost{background:transparent}
+
+    /* ------------------------------
+       Hero strip (magazine vibe)
+       ------------------------------ */
+    .hero{
+      display:grid; place-items:center; text-align:center;
+      padding:56px 0 24px; border-bottom:1px solid var(--line);
+      background:
+        radial-gradient(60% 50% at 50% 0%, color-mix(in srgb, var(--accent) 12%, transparent) 0%, transparent 70%),
+        var(--bg);
+    }
+    .title{font-size:clamp(28px, 4vw, 48px); font-weight:700; letter-spacing:-0.01em; margin:0}
+    .sub{margin:.6rem auto 0; color:var(--muted); max-width:72ch}
+
+    /* ------------------------------
+       Masonry gallery
+       ------------------------------ */
+    .gallery{
+      column-count: 1;
+      column-gap: 16px;
+      padding: 28px 0 80px;
+    }
+    @media (min-width:700px){ .gallery{ column-count: 2; } }
+    @media (min-width:1024px){ .gallery{ column-count: 3; } }
+    @media (min-width:1320px){ .gallery{ column-count: 4; } }
+
+    .card{
+      display:block; break-inside: avoid; margin:0 0 16px; position:relative;
+      border-radius: var(--radius); overflow:hidden; background: var(--card);
+      border:1px solid var(--line); box-shadow: var(--shadow); transform:translateZ(0);
+    }
+    .card figure{margin:0; position:relative}
+    .card img{
+      width:100%; height:auto; display:block; aspect-ratio:auto;
+      transition: transform .6s cubic-bezier(.2,.8,.2,1), filter .6s;
+      filter: saturate(1.05) contrast(1.02);
+    }
+    .card:hover img{ transform: scale(1.03); }
+    .card .meta{
+      position:absolute; inset:auto 12px 12px 12px; display:flex; justify-content:space-between; align-items:center;
+      padding:8px 10px; border-radius:12px; backdrop-filter: blur(10px) saturate(1.2);
+      background: color-mix(in srgb, var(--bg) 65%, transparent);
+      border:1px solid var(--line); color: var(--ink);
+      font-size:12px;
+    }
+    .fav{
+      -webkit-appearance:none; appearance:none; width:28px; height:28px; border-radius:999px; border:1px solid var(--line);
+      display:grid; place-items:center; background:transparent; cursor:pointer;
+    }
+    .fav:before{ content:"♡"; font-size:15px; transform:translateY(-1px) }
+    .fav.active{ background:color-mix(in srgb, var(--bg) 85%, #ff2d55 15%); border-color: color-mix(in srgb, #ff2d55 50%, var(--line)); }
+    .fav.active:before{ content:"❤"; }
+
+    /* ------------------------------
+       Lightbox / fullscreen viewer
+       ------------------------------ */
+    .lightbox{
+      position:fixed; inset:0; z-index:60; display:none; place-items:center; background:rgba(0,0,0,.85);
+    }
+    .lightbox.open{ display:grid; }
+    .lb-stage{ position:relative; width:min(92vw, 1400px); height:min(88vh, 900px); display:grid; place-items:center; }
+    .lb-img{ max-width:100%; max-height:100%; border-radius:14px; box-shadow: 0 20px 60px rgba(0,0,0,.6); }
+    .lb-ui{
+      position:absolute; inset:16px; display:flex; align-items:center; justify-content:space-between; pointer-events:none;
+      color:#fff; font-weight:600;
+    }
+    .lb-controls{ display:flex; gap:10px; pointer-events:auto;}
+    .icon-btn{
+      width:40px; height:40px; border-radius:10px; border:1px solid rgba(255,255,255,.2);
+      display:grid; place-items:center; background:rgba(255,255,255,.10); color:#fff; cursor:pointer;
+    }
+    .icon-btn:hover{ background:rgba(255,255,255,.18) }
+    .lb-nav{
+      position:absolute; inset:auto 0 16px 0; display:flex; justify-content:center; gap:12px; pointer-events:none;
+    }
+    .nav-btn{ pointer-events:auto }
+    .lb-caption{
+      position:absolute; left:16px; right:16px; bottom:64px; color:#fff; text-align:center; font-size:14px; opacity:.85;
+    }
+
+    /* ------------------------------
+       Footer
+       ------------------------------ */
+    footer{ border-top:1px solid var(--line); padding:40px 0; color:var(--muted); font-size:14px; }
+
+    /* ------------------------------
+       Age Gate — cinematic doors
+       ------------------------------ */
+    #age-gate{
+      position:fixed; inset:0; z-index:1000; display:grid; place-items:center; background:var(--bg);
+      transition: opacity .6s ease;
+    }
+    #age-gate.hidden{ opacity:0; pointer-events:none }
+    .gate-wrap{
+      position:relative; width:min(1000px, 92vw); aspect-ratio: 16 / 9; border-radius:24px;
+      overflow:hidden; border:1px solid var(--line); box-shadow: var(--shadow);
+      background: radial-gradient(120% 120% at 50% 0%, color-mix(in srgb, var(--accent) 18%, transparent) 0%, transparent 50%),
+                  linear-gradient(180deg, color-mix(in srgb, var(--bg) 90%, #fff 10%), var(--bg));
+    }
+    .gate-title{
+      position:absolute; inset:0; display:grid; place-items:center; text-align:center; z-index:2;
+    }
+    .gate-title h1{
+      margin:0; font-size:clamp(28px,4vw,44px); letter-spacing:.02em; font-weight:700;
+      text-shadow: 0 1px 0 rgba(255,255,255,.2);
+    }
+    .gate-title p{ margin:.6rem 0 1.2rem; color:var(--muted) }
+    .gate-actions{ display:flex; gap:12px; justify-content:center }
+    .gate-actions .btn.primary{
+      background:color-mix(in srgb, var(--accent) 16%, #fff 84%); border-color: color-mix(in srgb, var(--accent) 25%, var(--line));
+    }
+    .doors{ position:absolute; inset:0; display:grid; grid-template-columns: 1fr 1fr; z-index:1; }
+    .door{
+      position:relative; border-right:1px solid var(--line);
+      background:
+        linear-gradient( to bottom, rgba(255,255,255,.3), rgba(255,255,255,0) 22% ),
+        linear-gradient( 135deg, rgba(0,0,0,.05), rgba(255,255,255,0) ),
+        repeating-linear-gradient( 90deg, color-mix(in srgb, var(--bg) 92%, #999 8%) 0 2px, transparent 2px 38px );
+      backdrop-filter: blur(2px) saturate(1.05);
+      box-shadow: inset 0 0 0 1px var(--line), inset 0 -80px 120px rgba(0,0,0,.05);
+      transform-origin:left center;
+      will-change: transform, opacity;
+    }
+    .door.right{ border-right:none; border-left:1px solid var(--line); transform-origin:right center; }
+    .lintel{
+      position:absolute; left:0; right:0; top:0; height:16px; background:linear-gradient(180deg, rgba(0,0,0,.08), rgba(0,0,0,0));
+      border-bottom:1px solid var(--line); z-index:3;
+    }
+    .gate-wrap.open .door.left{ animation:doorLeft 1600ms cubic-bezier(.22,.8,.2,1) forwards; }
+    .gate-wrap.open .door.right{ animation:doorRight 1600ms cubic-bezier(.22,.8,.2,1) forwards; }
+    .gate-wrap.open .gate-title{ animation: titleFade 900ms ease forwards; animation-delay: 600ms; }
+    @keyframes doorLeft { to { transform: translateX(-100%) rotateY(-25deg); opacity:.0; } }
+    @keyframes doorRight { to { transform: translateX(100%) rotateY(25deg); opacity:.0; } }
+    @keyframes titleFade { to { opacity:0; filter: blur(8px) } }
+    @media (prefers-reduced-motion: reduce){
+      .gate-wrap.open .door.left, .gate-wrap.open .door.right{ animation:none; transform:translateX(-200%); opacity:0 }
+      .gate-wrap.open .gate-title{ animation:none; opacity:0 }
+    }
+
+    /* Skeleton shimmer for lazy items */
+    .skeleton{
+      display:block; width:100%; aspect-ratio: 3 / 4; background:linear-gradient(90deg, #e9e9e9 0, #f5f5f5 40%, #e9e9e9 80%);
+      background-size:200% 100%; animation: shimmer 1.4s linear infinite; border-radius: var(--radius);
+    }
+    @media(prefers-color-scheme:dark){
+      .skeleton{ background:linear-gradient(90deg, #161616 0, #1e1e1e 40%, #161616 80%); }
+    }
+    @keyframes shimmer{ to { background-position: -200% 0 } }
+
+    /* Utility */
+    .hide{ display:none !important }
+    .sr-only{ position:absolute; width:1px; height:1px; margin:-1px; padding:0; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0; }
+  </style>
+</head>
+<body>
+  <!-- AGE GATE -->
+  <div id="age-gate" role="dialog" aria-modal="true" aria-labelledby="ageTitle">
+    <div class="gate-wrap" id="gate">
+      <div class="lintel" aria-hidden="true"></div>
+      <div class="gate-title">
+        <div>
+          <h1 id="ageTitle">Enter if you are 18+</h1>
+          <p>By entering, you confirm you are of legal age in your jurisdiction.</p>
+          <div class="gate-actions">
+            <button class="btn primary" id="btn-enter" aria-label="Enter site">Enter</button>
+            <a class="btn ghost" href="https://www.google.com" aria-label="Leave site">Leave</a>
+          </div>
+        </div>
+      </div>
+      <div class="doors" aria-hidden="true">
+        <div class="door left"></div>
+        <div class="door right"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <header>
+    <div class="container nav">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span>Eros&nbsp;Noir</span>
+      </div>
+      <nav class="nav-actions">
+        <div class="pill" role="search">
+          <span class="sr-only" id="searchLabel">Search</span>
+          🔎
+          <input id="search" type="search" aria-labelledby="searchLabel" placeholder="Search titles, albums…" />
+        </div>
+        <button class="btn" id="btn-favs" title="Show favorites">❤️ Favorites</button>
+        <label class="btn" for="localFiles" title="Add local photos (preview only)">
+          ⤴ Add Photos
+          <input id="localFiles" type="file" accept="image/*" multiple hidden />
+        </label>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <h1 class="title">A Magazine-Caliber Gallery for Tasteful Erotic Art</h1>
+      <p class="sub">Minimal. Elegant. Immersive. Curated sets, fullscreen viewing, and a smooth, high-end experience. No tracking. No clutter.</p>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <main class="container" id="main">
+    <div id="albums" class="hide" style="padding:20px 0 0;">
+      <div id="albumTabs" class="nav-actions" role="tablist" aria-label="Albums"></div>
+    </div>
+    <section id="gallery" class="gallery" aria-live="polite" aria-busy="true"></section>
+    <div id="sentinel" class="sr-only" aria-hidden="true"></div>
+  </main>
+
+  <!-- LIGHTBOX -->
+  <div id="lightbox" class="lightbox" aria-modal="true" role="dialog" aria-label="Photo viewer">
+    <div class="lb-stage">
+      <div class="lb-ui">
+        <div class="lb-title">Eros Noir</div>
+        <div class="lb-controls">
+          <button class="icon-btn" id="lb-full" title="Toggle fullscreen" aria-label="Toggle fullscreen">⛶</button>
+          <a class="icon-btn" id="lb-download" download title="Download" aria-label="Download image">⬇</a>
+          <button class="icon-btn" id="lb-close" title="Close (Esc)" aria-label="Close">✕</button>
+        </div>
+      </div>
+      <img id="lb-img" class="lb-img" alt="" />
+      <div class="lb-caption" id="lb-cap"></div>
+      <div class="lb-nav">
+        <button class="icon-btn nav-btn" id="lb-prev" aria-label="Previous">‹</button>
+        <button class="icon-btn nav-btn" id="lb-next" aria-label="Next">›</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div>© <span id="year"></span> Eros Noir — A tasteful, art-first experience. All models are 18+.</div>
+    </div>
+  </footer>
+
+  <script>
+  /* ============================================================
+     Eros Noir — Single-file, production-grade gallery
+     Notes:
+     - For best results, add /photos/index.json (see header note).
+     - Fallback looks for photos/photo-001.jpg…photo-120.webp
+     - Local “Add Photos” is for preview only (not persisted).
+     ============================================================ */
+
+  const state = {
+    images: [],           // [{src, w?, h?, title?, album?}]
+    albums: [],           // [{name, cover?, images:[...]}]
+    filtered: [],         // working set after search/favs/album
+    page: 0,              // pagination page
+    perPage: 24,
+    mode: 'all',          // 'all' | 'favs' | 'album'
+    currentAlbum: null,
+    favorites: new Set(JSON.parse(localStorage.getItem('en_favs')||'[]')),
+    ageKey: 'en_age_ok',
+    loadedOnce: false
+  };
+
+  const els = {
+    gate: document.getElementById('age-gate'),
+    gateWrap: document.getElementById('gate'),
+    btnEnter: document.getElementById('btn-enter'),
+    gallery: document.getElementById('gallery'),
+    sentinel: document.getElementById('sentinel'),
+    search: document.getElementById('search'),
+    btnFavs: document.getElementById('btn-favs'),
+    albumsWrap: document.getElementById('albums'),
+    albumTabs: document.getElementById('albumTabs'),
+    lightbox: document.getElementById('lightbox'),
+    lbImg: document.getElementById('lb-img'),
+    lbCap: document.getElementById('lb-cap'),
+    lbClose: document.getElementById('lb-close'),
+    lbPrev: document.getElementById('lb-prev'),
+    lbNext: document.getElementById('lb-next'),
+    lbFull: document.getElementById('lb-full'),
+    lbDownload: document.getElementById('lb-download'),
+    localFiles: document.getElementById('localFiles')
+  };
+
+  // Age Gate
+  function initGate(){
+    const ok = localStorage.getItem(state.ageKey)==='1';
+    if(ok){
+      hideGate();
+      return;
+    }
+    els.btnEnter.addEventListener('click', () => {
+      localStorage.setItem(state.ageKey,'1');
+      els.gateWrap.classList.add('open');
+      setTimeout(() => hideGate(), 950);
+      // Begin site load a bit earlier for perceived speed
+      if(!state.loadedOnce) siteInit();
+    }, {once:true});
+  }
+  function hideGate(){
+    els.gate.classList.add('open');
+    els.gate.classList.add('open'); // ensure doors open for returning users (no flash)
+    setTimeout(() => els.gate.classList.remove('open'), 1); // reset
+    els.gateWrap.classList.add('open');
+    requestAnimationFrame(()=> els.gate.classList.add('open'));
+    setTimeout(() => { els.gate.classList.remove('open'); }, 10);
+    els.gate.classList.add('open'); // double safety
+    els.gateWrap.classList.add('open');
+    els.gate.classList.add('open');
+    // Fade out overlay
+    setTimeout(()=> els.gate.classList.add('open'), 0);
+    setTimeout(()=> els.gate.classList.add('open'), 10);
+    els.gateWrap.classList.add('open');
+    els.gate.parentElement.classList.add('hidden');
+  }
+
+  // Data loading
+  async function fetchManifest(){
+    try{
+      const res = await fetch('photos/index.json',{cache:'no-store'});
+      if(res.ok) return await res.json();
+    }catch(e){}
+    return null;
+  }
+
+  async function fallbackScan(limit=120){
+    // Light fallback: look for photos/photo-001..limit across common extensions
+    const pad = n => String(n).padStart(3,'0');
+    const exts = ['.jpg','.jpeg','.png','.webp'];
+    const hits = [];
+    // Try not to hammer: only attempt the first 60 by default, then bail if low success
+    let found = 0, tried = 0;
+    for(let i=1;i<=limit;i++){
+      let success = false;
+      for(const ext of exts){
+        const url = `photos/photo-${pad(i)}${ext}`;
+        try{
+          const resp = await fetch(url, { method:'HEAD', cache:'no-store' });
+          if(resp.ok){
+            hits.push({src:url, title:`Photo ${i}`});
+            success = true; found++; break;
+          }
+        }catch(e){}
+      }
+      tried++;
+      if(i===60 && found<5){ break; } // bail early if nothing resembles the pattern
+    }
+    return hits;
+  }
+
+  function flattenFromManifest(json){
+    if(Array.isArray(json)){
+      state.images = json.map(src => ({src, title: src.split('/').pop()}));
+      return;
+    }
+    if(json && Array.isArray(json.albums)){
+      state.albums = json.albums.map(a => ({
+        name: a.name || 'Untitled',
+        cover: a.cover || (a.images?.[0] || ''),
+        images: (a.images||[]).map(src => ({src, title: src.split('/').pop(), album: a.name}))
+      }));
+      state.images = state.albums.flatMap(a => a.images);
+      setupAlbumTabs();
+      return;
+    }
+    state.images = [];
+  }
+
+  function setupAlbumTabs(){
+    if(!state.albums.length) return;
+    els.albumsWrap.classList.remove('hide');
+    // "All" tab
+    const frag = document.createDocumentFragment();
+    const mk = (label, value, selected=false) => {
+      const b = document.createElement('button');
+      b.className = 'btn' + (selected ? '' : ' ghost');
+      b.role = 'tab';
+      b.textContent = label;
+      b.onclick = () => {
+        state.mode = 'album';
+        state.currentAlbum = value;
+        els.albumTabs.querySelectorAll('button').forEach(x => x.className='btn ghost');
+        b.className='btn';
+        applyFilters();
+      };
+      frag.appendChild(b);
+    };
+    mk('All', null, true);
+    for(const a of state.albums){ mk(a.name, a.name, false); }
+    els.albumTabs.innerHTML = '';
+    els.albumTabs.appendChild(frag);
+  }
+
+  function applyFilters(){
+    const term = els.search.value.trim().toLowerCase();
+    let items = state.images.slice();
+    if(state.mode==='favs'){ items = items.filter(it => state.favorites.has(it.src)); }
+    if(state.mode==='album' && state.currentAlbum){ items = items.filter(it => it.album===state.currentAlbum); }
+    if(term){
+      items = items.filter(it => (it.title||'').toLowerCase().includes(term)
+        || (it.album||'').toLowerCase().includes(term));
+    }
+    state.filtered = items;
+    state.page = 0;
+    els.gallery.setAttribute('aria-busy','true');
+    els.gallery.innerHTML = '';
+    renderNextPage(true);
+  }
+
+  function renderNextPage(reset=false){
+    const start = state.page * state.perPage;
+    const slice = state.filtered.slice(start, start + state.perPage);
+    if(!slice.length) return;
+    const frag = document.createDocumentFragment();
+    for(const it of slice){
+      const card = document.createElement('a');
+      card.href = it.src; card.className='card'; card.setAttribute('data-src', it.src);
+      card.setAttribute('data-title', it.title||''); if(it.album) card.setAttribute('data-album', it.album);
+      const fig = document.createElement('figure');
+      const sk = document.createElement('div'); sk.className='skeleton'; fig.appendChild(sk);
+
+      const meta = document.createElement('div'); meta.className='meta';
+      const cap = document.createElement('div'); cap.textContent = it.album ? `${it.album} — ${it.title||''}` : (it.title||'');
+      const fav = document.createElement('button'); fav.className = 'fav'; fav.title='Favorite';
+      if(state.favorites.has(it.src)) fav.classList.add('active');
+      fav.addEventListener('click', (e)=> {
+        e.preventDefault(); e.stopPropagation();
+        if(state.favorites.has(it.src)){ state.favorites.delete(it.src); fav.classList.remove('active'); }
+        else{ state.favorites.add(it.src); fav.classList.add('active'); }
+        localStorage.setItem('en_favs', JSON.stringify([...state.favorites]));
+      });
+      meta.appendChild(cap); meta.appendChild(fav);
+      fig.appendChild(meta);
+      card.appendChild(fig);
+      card.addEventListener('click', (e)=> { e.preventDefault(); openLightbox(it.src); });
+      frag.appendChild(card);
+    }
+    els.gallery.appendChild(frag);
+    els.gallery.removeAttribute('aria-busy');
+    state.page++;
+    // Lazy load images after mount
+    observeLazy();
+  }
+
+  // Lazy loader
+  let ioLazy = null;
+  function observeLazy(){
+    if(!ioLazy){
+      ioLazy = new IntersectionObserver((entries)=>{
+        for(const entry of entries){
+          if(entry.isIntersecting){
+            const a = entry.target;
+            ioLazy.unobserve(a);
+            hydrateCard(a);
+          }
+        }
+      }, {rootMargin:'200px 0px'});
+    }
+    document.querySelectorAll('.card[data-src]').forEach(card => ioLazy.observe(card));
+  }
+  function hydrateCard(a){
+    const src = a.getAttribute('data-src');
+    const fig = a.querySelector('figure');
+    const img = new Image();
+    img.loading='lazy'; img.decoding='async'; img.alt = a.getAttribute('data-title')||'';
+    img.addEventListener('load', ()=> {
+      const sk = fig.querySelector('.skeleton'); if(sk) sk.replaceWith(img);
+    });
+    img.src = src;
+    a.removeAttribute('data-src');
+  }
+
+  // Infinite scroll
+  const ioMore = new IntersectionObserver((entries)=>{
+    for(const e of entries){
+      if(e.isIntersecting){
+        renderNextPage();
+      }
+    }
+  }, {rootMargin:'800px 0px'});
+  ioMore.observe(els.sentinel);
+
+  // Search & Favs
+  els.search.addEventListener('input', debounce(applyFilters, 120));
+  els.btnFavs.addEventListener('click', () => {
+    state.mode = (state.mode==='favs') ? 'all' : 'favs';
+    els.btnFavs.textContent = (state.mode==='favs') ? '↩ All Photos' : '❤️ Favorites';
+    applyFilters();
+  });
+
+  // Lightbox
+  const lb = { open:false, index:0, list:[] };
+  function openLightbox(src){
+    lb.list = state.filtered;
+    lb.index = lb.list.findIndex(i => i.src===src);
+    if(lb.index<0) lb.index = 0;
+    setLBImage(lb.list[lb.index]);
+    els.lightbox.classList.add('open');
+    lb.open = true;
+    document.body.style.overflow='hidden';
+    prefetchNeighbors();
+  }
+  function closeLightbox(){
+    els.lightbox.classList.remove('open');
+    lb.open = false;
+    document.body.style.overflow='';
+  }
+  function nav(delta){
+    if(!lb.list.length) return;
+    lb.index = (lb.index + delta + lb.list.length) % lb.list.length;
+    setLBImage(lb.list[lb.index]);
+    prefetchNeighbors();
+  }
+  function setLBImage(item){
+    els.lbImg.src = item.src;
+    els.lbImg.alt = item.title||'';
+    els.lbCap.textContent = item.album ? `${item.album} — ${item.title||''}` : (item.title||'');
+    els.lbDownload.href = item.src;
+  }
+  function prefetchNeighbors(){
+    const pre = (idx) => {
+      const i = (idx + lb.list.length) % lb.list.length;
+      const img = new Image(); img.src = lb.list[i].src;
+    };
+    pre(lb.index+1); pre(lb.index-1);
+  }
+  els.lbClose.addEventListener('click', closeLightbox);
+  els.lbPrev.addEventListener('click', ()=>nav(-1));
+  els.lbNext.addEventListener('click', ()=>nav(1));
+  document.addEventListener('keydown', (e)=>{
+    if(!lb.open) return;
+    if(e.key==='Escape') closeLightbox();
+    if(e.key==='ArrowRight') nav(1);
+    if(e.key==='ArrowLeft') nav(-1);
+  });
+  // Fullscreen
+  els.lbFull.addEventListener('click', ()=>{
+    const el = document.documentElement;
+    if(!document.fullscreenElement){ el.requestFullscreen?.(); }
+    else{ document.exitFullscreen?.(); }
+  });
+
+  // Local files (preview only)
+  els.localFiles.addEventListener('change', (e)=>{
+    const files = [...e.target.files].filter(f => f.type.startsWith('image/'));
+    if(!files.length) return;
+    const imgs = files.map(f => ({ src: URL.createObjectURL(f), title: f.name }));
+    state.images = imgs.concat(state.images);
+    applyFilters();
+  });
+
+  // Utilities
+  function debounce(fn,ms){ let t; return (...args)=>{ clearTimeout(t); t=setTimeout(()=>fn(...args),ms); } }
+
+  // Site init
+  async function siteInit(){
+    if(state.loadedOnce) return;
+    state.loadedOnce = true;
+    document.getElementById('year').textContent = new Date().getFullYear();
+    // Try manifest
+    const json = await fetchManifest();
+    if(json){ flattenFromManifest(json); }
+    else{
+      const hits = await fallbackScan(120);
+      state.images = hits;
+    }
+    // If nothing found, show a small hint card
+    if(!state.images.length){
+      const hint = document.createElement('div');
+      hint.className='card'; hint.style.padding='18px';
+      hint.innerHTML = `
+        <div style="padding:18px;">
+          <strong>No photos found.</strong>
+          <div style="color:var(--muted); margin-top:8px;">
+            Add <code>/photos/index.json</code> or upload files via “Add Photos”.
+            <div style="margin-top:8px; font-size:13px">
+              Example <code>index.json</code>:<br/>
+              <pre style="white-space:pre-wrap; background:var(--bg); padding:12px; border:1px solid var(--line); border-radius:12px; overflow:auto;">[
+  "set1/001.jpg",
+  "set1/002.jpg"
+]</pre>
+            </div>
+          </div>
+        </div>`;
+      els.gallery.appendChild(hint);
+      els.gallery.removeAttribute('aria-busy');
+      return;
+    }
+    state.filtered = state.images.slice();
+    renderNextPage(true);
+  }
+
+  // Boot
+  initGate();
+  // If user already verified age, initialize immediately
+  if(localStorage.getItem(state.ageKey)==='1'){ siteInit(); }
+
+  </script>
+</body>
+</html>
